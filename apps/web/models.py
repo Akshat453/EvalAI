@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
 
-from base.models import TimeStampedModel
 from django.db import models
+
+from base.models import TimeStampedModel
 
 
 class Contact(TimeStampedModel):

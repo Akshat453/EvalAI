@@ -1,8 +1,9 @@
-from base.admin import ImportExportTimeStampedAdmin
 from django.contrib import admin
-from import_export import resources
 
+from base.admin import ImportExportTimeStampedAdmin
 from .models import Participant, ParticipantTeam
+
+from import_export import resources
 
 
 class ParticipantResource(resources.ModelResource):

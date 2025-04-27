@@ -1,7 +1,8 @@
 import logging
 
-from base.admin import ImportExportTimeStampedAdmin
 from django.contrib import admin
+
+from base.admin import ImportExportTimeStampedAdmin
 
 from .models import Submission
 from .sender import publish_submission_message

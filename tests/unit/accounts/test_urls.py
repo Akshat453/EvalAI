@@ -1,7 +1,9 @@
 from allauth.account.models import EmailAddress
-from django.contrib.auth.models import User
+
 from django.urls import reverse_lazy
-from rest_framework.test import APIClient, APITestCase
+from django.contrib.auth.models import User
+
+from rest_framework.test import APITestCase, APIClient
 
 
 class BaseAPITestClass(APITestCase):

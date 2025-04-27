@@ -1,5 +1,13 @@
 import json
+
 from datetime import timedelta
+
+from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.urls import reverse_lazy, resolve
+from django.utils import timezone
+
+from rest_framework.test import APITestCase, APIClient
 
 from challenges.models import (
     Challenge,
@@ -8,13 +16,8 @@ from challenges.models import (
     DatasetSplit,
     Leaderboard,
 )
-from django.contrib.auth.models import User
-from django.core.files.uploadedfile import SimpleUploadedFile
-from django.urls import resolve, reverse_lazy
-from django.utils import timezone
 from hosts.models import ChallengeHostTeam
 from participants.models import ParticipantTeam
-from rest_framework.test import APIClient, APITestCase
 
 
 class BaseAPITestClass(APITestCase):
@@ -187,12 +190,11 @@ class TestChallengeUrls(BaseAPITestClass):
         )
 
         url = reverse_lazy(
-            "challenges:get_all_challenges",
-            kwargs={
+            "challenges:get_all_challenges", kwargs={
                 "challenge_time": "PAST",
                 "challenge_approved": "APPROVED",
                 "challenge_published": "PUBLIC",
-            },
+            }
         )
         self.assertEqual(url, "/api/challenges/challenge/PAST/APPROVED/PUBLIC")
 

@@ -2,6 +2,7 @@ import os
 
 from datadog import DogStatsd
 
+
 statsd_host = os.environ.get("STATSD_ENDPOINT", "statsd")
 statsd_port = int(os.environ.get("STATSD_PORT", "9125"))
 statsd = DogStatsd(host=statsd_host, port=statsd_port)

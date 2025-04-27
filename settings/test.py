@@ -1,4 +1,4 @@
-from .common import *  # noqa  # pylint: disable=wildcard-import,unused-wildcard-import
+from .common import *  # noqa
 
 DEBUG = False
 

@@ -1,7 +1,8 @@
 import logging
 
-from base.utils import send_email
 from django.conf import settings
+
+from base.utils import send_email
 
 logger = logging.getLogger(__name__)
 

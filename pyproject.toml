@@ -14,9 +14,3 @@ exclude = '''
   | dist
 )/
 '''
-
-[tool.isort]
-profile = "black"
-line_length = 79
-skip = ["migrations"]
-verbose = true

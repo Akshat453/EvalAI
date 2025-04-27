@@ -1,22 +1,17 @@
-import os
-import time
 from datetime import datetime, timedelta
-
+import time
 import pytz  # Use this to handle timezones if needed
+import os
 from evalai_interface import EvalAI_Interface
 
 
 def get_submission_time(submission):
     # Get the submission time based on the presence of "rerun_resumed_at"
     if "rerun_resumed_at" in submission and submission["rerun_resumed_at"]:
-        return datetime.strptime(
-            submission["rerun_resumed_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
-        )
+        return datetime.strptime(submission["rerun_resumed_at"], "%Y-%m-%dT%H:%M:%S.%fZ")
 
     else:
-        return datetime.strptime(
-            submission["submitted_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
-        )
+        return datetime.strptime(submission["submitted_at"], "%Y-%m-%dT%H:%M:%S.%fZ")
 
 
 def auto_cancel_submissions(challenge_pk, days_threshold=14):
@@ -81,8 +76,7 @@ if __name__ == "__main__":
         challenges.extend(response["results"])
         next_page = response["next"]
 
-    # Loop through all challenges and run the auto-cancel script for each
-    # challenge
+    # Loop through all challenges and run the auto-cancel script for each challenge
     for challenge in challenges:
         challenge_pk = challenge["id"]
         print(f"Running auto-cancel script for challenge {challenge_pk}")

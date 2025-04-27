@@ -1,7 +1,13 @@
 import json
 import os
 import shutil
+
 from datetime import timedelta
+
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 from challenges.models import (
     Challenge,
@@ -11,10 +17,6 @@ from challenges.models import (
     Leaderboard,
     LeaderboardData,
 )
-from django.contrib.auth.models import User
-from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase
-from django.utils import timezone
 from hosts.models import ChallengeHostTeam
 from jobs.models import Submission
 from participants.models import ParticipantTeam

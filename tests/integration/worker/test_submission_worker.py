@@ -1,11 +1,22 @@
 import json
+import mock
 import os
 import shutil
 import time
+
+from allauth.account.models import EmailAddress
+
 from datetime import timedelta
 
-import mock
-from allauth.account.models import EmailAddress
+from django.conf import settings
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.urls import reverse_lazy
+from django.contrib.auth.models import User
+from django.utils import timezone
+
+from rest_framework.test import APITestCase, APIClient
+
 from challenges.models import (
     Challenge,
     ChallengePhase,
@@ -14,16 +25,9 @@ from challenges.models import (
     Leaderboard,
     LeaderboardData,
 )
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.core.files.base import ContentFile
-from django.core.files.uploadedfile import SimpleUploadedFile
-from django.urls import reverse_lazy
-from django.utils import timezone
+from participants.models import Participant, ParticipantTeam
 from hosts.models import ChallengeHostTeam
 from jobs.models import Submission
-from participants.models import Participant, ParticipantTeam
-from rest_framework.test import APIClient, APITestCase
 
 import scripts.workers.submission_worker as submission_worker
 
@@ -384,9 +388,9 @@ class RunSubmissionTestClass(BaseTestClass):
         )
 
         mock_map[challenge_pk] = mock.Mock()
-        mock_map.get(challenge_pk).get.return_value = (
-            "test_annotation_file.txt"
-        )
+        mock_map.get(
+            challenge_pk
+        ).get.return_value = "test_annotation_file.txt"
         mock_script_dict[challenge_pk] = mock.Mock()
         mock_script_dict[challenge_pk].evaluate.return_value = {
             "split1": {"metric1": self.metric}
@@ -453,9 +457,9 @@ class RunSubmissionTestClass(BaseTestClass):
         )
 
         mock_map[challenge_pk] = mock.Mock()
-        mock_map.get(challenge_pk).get.return_value = (
-            "test_annotation_file.txt"
-        )
+        mock_map.get(
+            challenge_pk
+        ).get.return_value = "test_annotation_file.txt"
         mock_script_dict[challenge_pk] = mock.Mock()
         mock_script_dict[challenge_pk].evaluate.return_value = {
             "result": [{"split2": {"metric1": self.metric}}]

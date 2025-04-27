@@ -1,9 +1,8 @@
+import docker
 import json
 import os
-
 import requests
 
-import docker
 
 CHANNEL = "#evalai-deployment-notifications"
 EVALAI_CONTAINER_PREFIX = "evalai"

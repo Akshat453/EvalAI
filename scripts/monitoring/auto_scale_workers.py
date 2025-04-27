@@ -1,10 +1,10 @@
 import os
-import warnings
-from datetime import datetime
-
 import pytz
-from auto_stop_workers import start_worker, stop_worker
+import warnings
+
+from datetime import datetime
 from dateutil.parser import parse
+from auto_stop_workers import start_worker, stop_worker
 from evalai_interface import EvalAI_Interface
 
 warnings.filterwarnings("ignore")
@@ -74,14 +74,14 @@ def scale_up_or_down_workers(challenge, challenge_metrics):
     )
 
     print(
-        "Num Workers: {}, Pending Submissions: {}".format(
-            num_workers, pending_submissions
-        )
+        "Num Workers: {}, Pending Submissions: {}".format(num_workers, pending_submissions)
     )
 
-    if pending_submissions == 0 or parse(
-        challenge["end_date"]
-    ) < pytz.UTC.localize(datetime.utcnow()):
+    if (
+        pending_submissions == 0
+        or parse(challenge["end_date"])
+        < pytz.UTC.localize(datetime.utcnow())
+    ):
         scale_down_workers(challenge, num_workers)
     else:
         scale_up_workers(challenge, num_workers)
@@ -105,14 +105,8 @@ def scale_up_or_down_workers_for_challenge(challenge, challenge_metrics):
 def scale_up_or_down_workers_for_challenges(response, evalai_interface):
     for challenge in response["results"]:
         try:
-            challenge_metrics = (
-                evalai_interface.get_challenge_submission_metrics_by_pk(
-                    challenge["id"]
-                )
-            )
-            scale_up_or_down_workers_for_challenge(
-                challenge, challenge_metrics
-            )
+            challenge_metrics = evalai_interface.get_challenge_submission_metrics_by_pk(challenge["id"])
+            scale_up_or_down_workers_for_challenge(challenge, challenge_metrics)
         except Exception as e:
             print(e)
 

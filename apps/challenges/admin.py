@@ -1,9 +1,10 @@
-from base.admin import ImportExportTimeStampedAdmin
 from django import forms
 from django.contrib import admin, messages
+
 from django.contrib.admin.helpers import ActionForm
 
-from .admin_filters import ChallengeFilter
+from base.admin import ImportExportTimeStampedAdmin
+
 from .aws_utils import (
     delete_workers,
     restart_workers,
@@ -11,14 +12,15 @@ from .aws_utils import (
     start_workers,
     stop_workers,
 )
+
+from .admin_filters import ChallengeFilter
+
 from .models import (
     Challenge,
     ChallengeConfiguration,
     ChallengeEvaluationCluster,
     ChallengePhase,
     ChallengePhaseSplit,
-    ChallengePrize,
-    ChallengeSponsor,
     ChallengeTemplate,
     DatasetSplit,
     Leaderboard,
@@ -26,6 +28,8 @@ from .models import (
     PWCChallengeLeaderboard,
     StarChallenge,
     UserInvitation,
+    ChallengeSponsor,
+    ChallengePrize,
 )
 
 
@@ -37,7 +41,6 @@ class UpdateNumOfWorkersForm(ActionForm):
 @admin.register(Challenge)
 class ChallengeAdmin(ImportExportTimeStampedAdmin):
     readonly_fields = ("created_at",)
-    ordering = ["-id"]
     list_display = (
         "id",
         "title",

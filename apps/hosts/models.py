@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
 
-from base.models import TimeStampedModel
-from django.contrib.auth.models import User
 from django.db import models
+from django.contrib.auth.models import User
+
+from base.models import TimeStampedModel
 
 # from challenges.models import (Challenge, )
 

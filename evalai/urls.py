@@ -14,27 +14,34 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 
-from allauth.account.views import ConfirmEmailView
-from django.conf import settings
-from django.conf.urls import include, url
-from django.conf.urls.static import static
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic.base import TemplateView
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-    SpectacularSwaggerView,
-)
+from django.conf import settings
+from django.conf.urls.static import static
+
+from allauth.account.views import ConfirmEmailView
 from rest_framework_expiring_authtoken.views import obtain_expiring_auth_token
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
 from web import views
 
 handler404 = "web.views.page_not_found"
 handler500 = "web.views.internal_server_error"
 
+swagger_api_info = openapi.Info(
+    title="EvalAI API",
+    default_version="v1",
+    description="EvalAI Documentation",
+    contact=openapi.Contact(email="team@cloudcv.org"),
+    license=openapi.License(name="BSD License"),
+)
 
-schema_view = SpectacularAPIView.as_view()
-swagger_view = SpectacularSwaggerView.as_view(url_name="schema")
-redoc_view = SpectacularRedocView.as_view(url_name="schema")
+schema_view = get_schema_view(
+    public=True, permission_classes=(permissions.AllowAny,)
+)
 
 urlpatterns = [
     url(r"^$", views.home, name="home"),
@@ -47,14 +54,13 @@ urlpatterns = [
     ),
     url(r"^api/auth/", include("rest_auth.urls")),
     url(
-        r"^api/auth/registration/account-confirm-email/(?P<key>[-:\w]+)/$",
+        r"^api/auth/registration/account-confirm-email/(?P<key>[-:\w]+)/$",  # noqa
         ConfirmEmailView.as_view(),
         name="account_confirm_email",
     ),
     url(r"^api/auth/registration/", include("rest_auth.registration.urls")),
     url(
-        r"^auth/api/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/"
-        r"(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$",
+        r"^auth/api/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$",  # noqa
         TemplateView.as_view(template_name="password_reset_confirm.html"),
         name="password_reset_confirm",
     ),
@@ -76,9 +82,16 @@ urlpatterns = [
     ),
     url(r"^api/web/", include("web.urls", namespace="web")),
     url(r"^email_reporting/", include("django_ses.urls")),
-    url(r"^api/schema/", schema_view, name="schema"),
-    url(r"^api/swagger/", swagger_view, name="swagger-ui"),
-    url(r"^api/docs/", redoc_view, name="redoc"),
+    url(
+        r"^api/docs/docs(?P<format>\.json|\.yaml)$",
+        schema_view.without_ui(cache_timeout=0),
+        name="schema-yaml",
+    ),
+    url(
+        r"^api/docs/$",
+        schema_view.with_ui("redoc", cache_timeout=0),
+        name="schema-redoc",
+    ),
 ]
 
 # DJANGO-SPAGHETTI-AND-MEATBALLS URLs available during development only.

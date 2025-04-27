@@ -1,25 +1,23 @@
-from __future__ import (
-    absolute_import,
-    division,
-    print_function,
-    unicode_literals,
-)
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import contextlib
 import importlib
 import json
 import logging
 import os
-import shutil
+import requests
 import signal
+import shutil
 import sys
 import tempfile
 import time
 import traceback
 import zipfile
-from os.path import join
 
-import requests
+from os.path import join
 
 # all challenge and submission will be stored in temp directory
 BASE_TEMP_DIR = tempfile.mkdtemp()
@@ -160,7 +158,7 @@ def create_dir_as_python_package(directory):
     """
     create_dir(directory)
     init_file_path = join(directory, "__init__.py")
-    with open(init_file_path, "w") as _init_file:  # noqa
+    with open(init_file_path, "w") as init_file:  # noqa
         # to create empty file
         pass
 

@@ -1,12 +1,14 @@
 from datetime import timedelta
 
-from allauth.account.models import EmailAddress
-from challenges.models import Challenge
 from django.contrib.auth.models import User
-from django.urls import reverse_lazy
 from django.utils import timezone
+from django.urls import reverse_lazy
+
+from allauth.account.models import EmailAddress
+from rest_framework.test import APITestCase, APIClient
+
+from challenges.models import Challenge
 from hosts.models import ChallengeHostTeam
-from rest_framework.test import APIClient, APITestCase
 
 
 class BaseAPITestClass(APITestCase):
